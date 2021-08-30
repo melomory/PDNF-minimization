@@ -1,0 +1,59 @@
+﻿<Window x:Class="Minimization.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minimization"
+        mc:Ignorable="d"
+        Title="Минимизация СДНФ" Height="450" Width="650">
+    <UserControl>
+        <UserControl.Resources>
+            <Style x:Key="errorToolTip" TargetType="Control">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip" 
+                        Value="{
+                            Binding RelativeSource={x:Static RelativeSource.Self}, 
+                            Path=(Validation.Errors)/ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource errorToolTip}"/>
+        </UserControl.Resources>
+
+        <Grid HorizontalAlignment="Left" Width="792">
+            <Label Content="Количество переменных:" HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top"/>
+            <TextBox  HorizontalAlignment="Left" Height="23" Margin="200,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"
+                     Name ="Vars" Text="{Binding Variables, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+
+            </TextBox>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="200,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"
+                     Name ="FV" Text="{Binding FunctionVector, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+             </TextBox>
+            <Label Content="Вектор функции:" HorizontalAlignment="Left" Margin="50,81,0,0" VerticalAlignment="Top"/>
+            <Button Content="Минимизировать функцию" HorizontalAlignment="Left" Margin="376,50,0,0" VerticalAlignment="Top" Width="163" RenderTransformOrigin="-0.023,0.671" Click="Button_Click">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Error}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Label Content="Результат минимизации:" HorizontalAlignment="Left" Margin="50,159,0,0" VerticalAlignment="Top"/>
+            <ListBox Name="View" HorizontalAlignment="Left" Height="100" Margin="50,190,0,0" VerticalAlignment="Top" Width="489"/>
+            <Label Content="СДНФ:" HorizontalAlignment="Left" Margin="50,112,0,0" VerticalAlignment="Top"/>
+            <Label Name="PDNF" Content="" HorizontalAlignment="Left" Margin="106,112,0,0" VerticalAlignment="Top"/>
+            <Label Content="Минимизация выполняется для СДНФ. Выводятся все возможные минимальные тупиковые формы." HorizontalAlignment="Left" Margin="50,352,0,0" VerticalAlignment="Top"/>
+            <Label Content="Количество минимальных форм:" HorizontalAlignment="Left" Margin="50,295,0,0" VerticalAlignment="Top"/>
+            <Label Name="FormsNumber" Content="" HorizontalAlignment="Left" Margin="246,295,0,0" VerticalAlignment="Top"/>
+            <Label Content="Примечание:" HorizontalAlignment="Left" Margin="50,326,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+            <Label Content="Используемый алфавит:" HorizontalAlignment="Left" Margin="359,84,0,0" VerticalAlignment="Top"/>
+            <Label Name="Alphabet" Content="" HorizontalAlignment="Left" Margin="507,84,0,0" VerticalAlignment="Top" Width="106"/>
+            <Label x:Name="Alphabet_Copy" Content="Прописная буква: X – истина; строчная буква: x – ложь (отрицание)." HorizontalAlignment="Left" Margin="50,383,0,0" VerticalAlignment="Top" Width="452"/>
+        </Grid>
+    </UserControl>
+</Window>
